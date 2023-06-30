@@ -12,6 +12,7 @@ export const Header = () => {
   const handleLogout = () => {
     try {
       dispatch(authActions.logout());
+      localStorage.removeItem('userId')
       alert("logout successfully");
       navigate("/login");
     } catch (error) {
@@ -32,7 +33,7 @@ export const Header = () => {
               <Link to="/blogs">BLOGS</Link>
             </p>
             <p>
-              <Link to="/blogs">MY BLOGS</Link>
+              <Link to="/my-blogs">MY BLOGS</Link>
             </p>
           </>
         )}
