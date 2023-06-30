@@ -10,7 +10,7 @@ const authSlice = createSlice({
       state.isLogin = true;
     },
     logout(state) {
-      state.isLogin(false);
+      state.isLogin=false;
     },
   },
 });

@@ -1,11 +1,23 @@
 import React from "react";
 import { LOGIN_IMAGE_URL } from "../constants";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { authActions } from "../redux/store";
 export const Header = () => {
   //global state
   const isLogin = useSelector((state) => state.isLogin);
-  console.log(isLogin);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    try {
+      dispatch(authActions.logout());
+      alert("logout successfully");
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <nav className="flex justify-between items-center bg-gray-200 shadow-lg h-20 p-4 w-full">
       <div className="w-1/5 md:w-3/5 border  ">
@@ -26,16 +38,16 @@ export const Header = () => {
         )}
         {!isLogin && (
           <>
-            <p>
+            <button>
               {" "}
               <Link to="/login">LOGIN</Link>
-            </p>
-            <p>
+            </button>
+            <button>
               <Link to="/signup">REGISTER</Link>
-            </p>
+            </button>
           </>
         )}
-        {isLogin && <p>LOGOUT</p>}
+        {isLogin && <button onClick={handleLogout}>LOGOUT</button>}
       </div>
     </nav>
   );
