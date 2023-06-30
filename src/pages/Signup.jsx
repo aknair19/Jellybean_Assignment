@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { LOGIN_IMAGE_URL } from "../constants";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const signupInitialValues = {
   username: "",
   email: "",
@@ -10,14 +11,29 @@ const signupInitialValues = {
 
 export const Signup = () => {
   const [signupInput, setSignupInput] = useState(signupInitialValues);
+  const navigate = useNavigate();
   const handleSignupInputChange = (e) => {
     setSignupInput((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post("/api/v1/user/register", {
+        username: signupInput.username,
+        email: signupInput.email,
+        password: signupInput.password,
+      });
+      if (data.success) {
+        alert("user registered successfully");
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
     console.log(signupInput);
   };
 
